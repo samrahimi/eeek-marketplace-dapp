@@ -125,13 +125,13 @@ contract Reputable {
     }
 }
 
-contract EEEK is Administered, Reputable
+contract YEEK is Administered, Reputable
 {
     uint8 public commissionPercent = 5;             //Marketplace owner gets 5% of each transaction; the rest goes to whoever does the work.
                                                     //This is way better than any existing, centralized marketplace for writers / creatives. 
-                                                    //Proceeds go towards paying engineers who build EEEK (via GitCoin), paying community
+                                                    //Proceeds go towards paying engineers who build  (via GitCoin), paying community
                                                     //members who assist us by arbitrating disputes, and of course paying everyone who 
-                                                    //creates content for EEEK (writers / designers) or distributes it (social media marketers).
+                                                    //creates content for YEEK (writers / designers) or distributes it (social media marketers).
                                                     
     uint256 public minGigValue = 0.001 ether;       //Less than this would be non-cost-effective in terms of gas
     uint256 public maxGigValue = 100 ether;         //Approx. $50000
