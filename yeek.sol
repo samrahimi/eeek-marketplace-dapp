@@ -125,7 +125,7 @@ contract Reputable {
     }
 }
 
-contract YEEK is Administered, Reputable
+contract YeekMarketplace is Administered, Reputable
 {
     uint8 public commissionPercent = 5;             //Marketplace owner gets 5% of each transaction; the rest goes to whoever does the work.
                                                     //This is way better than any existing, centralized marketplace for writers / creatives. 
