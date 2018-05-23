@@ -1,0 +1,60 @@
+{
+  "indexes": [
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "price", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "price", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "price", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "tokens",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "price", "mode": "ASCENDING" }
+      ]
+    }
+  ]
+}
