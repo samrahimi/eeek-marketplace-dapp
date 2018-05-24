@@ -1,21 +1,33 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+        <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+        <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/jquery"></script>    
     </head>
     <body class="container" style="padding-top: 3%;">
-    <script type="text/javascript" src="main.js?ddddd"></script>
+    <script type="text/javascript" src="main.js?fffdsdf"></script>
     
-    <h2><img src="logo_large.jpg" width="48" height="48" align="texttop" /> <span id="tokenName"></span></h2>
-    <h4>Token Information</h4>
+    <div style="display:none" id="needMetamask" class="row">
+            <div class="column" style="background-color:red; color:white">
+                <p>ERROR: Browser does not support Blockchain operations.. Please install an Ethereum browser plugin (Metamask), or use 
+                    a web3 compatible browser (Trust, Toshi, etc)
+                </p>
+            </div>
+     </div>
+    
+
+    <h3><img src="logo_large.jpg" width="36" height="36" align="texttop" /> <span id="tokenName"></span></h3>
+    <h4>Token &amp; Wallet Info</h4>
+
     <div class="row">
         <div class="column">
             <label>Token Symbol</label>
             <p>
                 <span class="symbol">Loading...</span>
-                <a href="#" id="etherscanUrl">(View On Etherscan)</a>
+                <a href="#" id="etherscanUrl">(Tracker)</a>
             </p>
         </div>
         <div class="column">
@@ -28,10 +40,9 @@
         </div>
     </div>
 
-    <h4>My Wallet</h4>
     <div class="row">
         <div class="column">
-            <label>Wallet Address</label>
+            <label>My Address</label>
             <p><span id="ethAddress">Loading...</span></p>
         </div>
         <div class="column">
@@ -45,22 +56,22 @@
                 <p>
                     <span id="etherBalance"></span> ETH
                 </p>
-        </div>        
+        </div>
     </div>
 
+    <hr />
 
-
-    <h4>Current Airdrop Information!</h4>
+    <h3>Airdrop Stats</h3>
     <div class="row">
         <div class="column">
-            <label>Tokens Dispensed:</label>
+            <label>Dispensed</label>
             <p> 
                 <span id="tokensDispensed"></span>
                 <span class="symbol"></span>
             </p>
         </div>
         <div class="column">
-                <label>Tokens Remaining:</label>
+                <label>Remaining</label>
                 <p> 
                     <span id="tokensRemaining"></span>
                     <span class="symbol"></span>
@@ -68,7 +79,7 @@
          </div>
 
          <div class="column">
-                <label>Airdrop Size (Per Person):</label>
+                <label>Amt/Person</label>
                 <p> 
                     <span id="airdropAmount"></span>
                     <span class="symbol"></span>
