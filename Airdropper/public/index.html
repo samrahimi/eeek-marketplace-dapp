@@ -1,14 +1,17 @@
 <html>
     <head>
-        <script type="text/javascript" src="https://unpkg.com/jquery"></script>    
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery"></script>    
     </head>
   <body>
+        <script type="text/javascript" src="main.js?vvcdf"></script>
+
+        <p style="text-align:right">
+                Your Account: 
+                <span id="ethAddress"></span>
+        </p>
+          
     <h2>YEEK Token</h2>
-    <p>
-      Your address: 
-      <span id="ethAddress"></span>
-    </p>
     <p>
         Total Supply:
         <span id="totalSupply"></span> YEEK
@@ -33,9 +36,8 @@
         
 
     <p>Your Airdrop Status: <span id="eligibility">Please wait...</span></p>
-    <button id="withdrawAirdropTokens" data-role="web3method" style="width:100%; padding:20px 0px">Get My Tokens</button>
+    <input type="button" style="width:100%; font-size:20px; padding:20px 0px 20px 0px; background-color:#eeeeee" value="Get My Tokens" />
     
-    <script type="text/javascript" src="main.js?v10"></script>
 
     </body>
 </html>
