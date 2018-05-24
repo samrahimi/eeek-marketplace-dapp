@@ -1,42 +1,83 @@
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/jquery"></script>    
     </head>
-  <body>
-        <script type="text/javascript" src="main.js?vvcdf"></script>
+    <body class="container" style="padding-top: 3%;">
+    <script type="text/javascript" src="main.js?ddddd"></script>
+    
+    <h2><img src="logo_large.jpg" width="48" height="48" align="texttop" /> <span id="tokenName"></span></h2>
+    <h4>Token Information</h4>
+    <div class="row">
+        <div class="column">
+            <label>Token Symbol</label>
+            <p>
+                <span class="symbol">Loading...</span>
+                <a href="#" id="etherscanUrl">(View On Etherscan)</a>
+            </p>
+        </div>
+        <div class="column">
+                <label>Total Supply</label>
+                <p id="totalSupply">Loading...</p>
+        </div>    
+        <div class="column">
+            <label>Decimals</label>
+            <p id="decimals">Loading...</p>
+        </div>
+    </div>
 
-        <p style="text-align:right">
-                Your Account: 
-                <span id="ethAddress"></span>
-        </p>
-          
-    <h2>YEEK Token</h2>
-    <p>
-        Total Supply:
-        <span id="totalSupply"></span> YEEK
-    </p>
-    <p>
-        Your Balance:
-        <span id="yeekBalance"></span> YEEK
-    </p>
+    <h4>My Wallet</h4>
+    <div class="row">
+        <div class="column">
+            <label>Wallet Address</label>
+            <p><span id="ethAddress">Loading...</span></p>
+        </div>
+        <div class="column">
+                <label>Token Balance</label>
+                <p>
+                    <span id="tokenBalance">Loading...</span> <span class="symbol"></span>
+                </p>
+        </div>
+        <div class="column">
+                <label>Ether Balance</label>
+                <p>
+                    <span id="etherBalance"></span> ETH
+                </p>
+        </div>        
+    </div>
 
-    <h2>Airdropper!</h2>
-    <p>
-        Tokens Dispensed: <span id="tokensDispensed"></span> YEEK
-    </p>
 
-    <p>
-        Tokens Remaining: <span id="tokensRemaining"></span> YEEK
-    </p>
 
-    <p>
-        Airdrop Amount: <span id="airdropAmount"></span> YEEK
-    </p>
-        
+    <h4>Current Airdrop Information!</h4>
+    <div class="row">
+        <div class="column">
+            <label>Tokens Dispensed:</label>
+            <p> 
+                <span id="tokensDispensed"></span>
+                <span class="symbol"></span>
+            </p>
+        </div>
+        <div class="column">
+                <label>Tokens Remaining:</label>
+                <p> 
+                    <span id="tokensRemaining"></span>
+                    <span class="symbol"></span>
+                </p>
+         </div>
+
+         <div class="column">
+                <label>Airdrop Size (Per Person):</label>
+                <p> 
+                    <span id="airdropAmount"></span>
+                    <span class="symbol"></span>
+                </p>
+         </div>
+    </div>
 
     <p>Your Airdrop Status: <span id="eligibility">Please wait...</span></p>
-    <input type="button" style="width:100%; font-size:20px; padding:20px 0px 20px 0px; background-color:#eeeeee" value="Get My Tokens" />
+    <button id="withdrawAirdropTokens" style="width:100%;">Get My Tokens</button>
     
 
     </body>

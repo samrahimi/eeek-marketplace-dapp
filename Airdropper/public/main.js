@@ -1,6 +1,9 @@
 let tokenstats = {}
 
-const maxDecimalPrecision = 3;
+const maxDecimalPrecision = 4;
+const tokenAddress = '0x96387e69fac1d3b63e31a3a70ee3a06761887759';
+const dropperAddress = '0xe77078cbbc4592e06849fd2fdddb4721de6e42c8';
+let dropper, token, eth, myAddress = null;
 
 let rawToDecimal = function(bigNumStr, decimals) {
     let exponent= bigNumStr.substring(0, bigNumStr.length - decimals);
@@ -25,15 +28,27 @@ let rawToDecimal = function(bigNumStr, decimals) {
       nstr += "0";
     return nstr;
   }
+
   
 $(document).ready(() => {
+    $("#withdrawAirdropTokens").on("click", () => {
+        console.log("main.js 557: Withdraw Button Clicked")
+        $("#eligibility").html("Please authorize the transaction in your wallet to continue...")
+        $("#withdrawAirdropTokens").attr("disabled", "disabled")
+
+        dropper.withdrawAirdropTokens({"from": myAddress}).then((tx) => {
+                $("#eligibility").html("Requested. Transaction ID: <a href='https://etherscan.io/tx/"+ tx+"' />"+tx+"</a>");
+        })
+    })
+
+
     setTimeout(() => {
-        const eth = new Eth(window.web3.currentProvider);
-        const myAddress = window.web3.eth.defaultAccount;
+        myAddress = window.web3.eth.defaultAccount;
+        eth = new Eth(window.web3.currentProvider);
 
 
         console.log("Account: "+myAddress);
-        $("#ethAddress").html(myAddress);
+        $("#ethAddress").html(myAddress.substring(0,10)+"...");
 
         /*
         eth.getBlockByNumber(45300, true, (err, block) => {
@@ -515,20 +530,44 @@ $(document).ready(() => {
                 }
             ];
 
-            const token = eth.contract(tokenABI).at('0x96387e69fac1d3b63e31a3a70ee3a06761887759');
-            const dropper = eth.contract(dropperABI).at('0xe77078cbbc4592e06849fd2fdddb4721de6e42c8');
+            token = eth.contract(tokenABI).at(tokenAddress);
+            dropper = eth.contract(dropperABI).at(dropperAddress);
 
+            /* Begin load token info */
             token.totalSupply().then((totalSupply) => {
                 tokenstats.totalSupply = totalSupply[0].toString(10);
                 $("#totalSupply").html(rawToDecimal(tokenstats.totalSupply, 18));
             // result <BN ...>  4500000
             })
-            
-            token.balanceOf(myAddress).then((balance) => {
-                tokenstats.balance = balance[0].toString(10);
-                $("#yeekBalance").html(rawToDecimal(tokenstats.balance, 18));
+
+            token.symbol().then((sym) => {
+                tokenstats.symbol = sym[0];
+                $(".symbol").html(tokenstats.symbol);
+                $("#etherscanUrl").attr("href", "https://etherscan.io/token/"+tokenAddress);
             })
 
+            token.name().then((sym) => {
+                tokenstats.name = sym[0];
+                $("#tokenName").html(tokenstats.name);
+            })
+            token.decimals().then((val) => {
+                tokenstats.decimals = val[0].toString(10);
+                $("#decimals").html(tokenstats.decimals);
+            })
+
+            /* Begin Load User Balances */
+            token.balanceOf(myAddress).then((balance) => {
+                tokenstats.balance = balance[0].toString(10);
+                $("#tokenBalance").html(rawToDecimal(tokenstats.balance, 18));
+            })
+
+            eth.getBalance(myAddress, (err, balance) => {
+                var value = web3.fromWei(balance, 'ether');
+                tokenstats.etherBalance = value.toString(10);
+                $("#etherBalance").html(tokenstats.etherBalance);
+            });
+              
+            /* Begin Load Airdropper Info */
             dropper.tokensDispensed().then((amount) => {
                 tokenstats.dispensed = amount[0].toString(10);
                 $("#tokensDispensed").html(rawToDecimal(tokenstats.dispensed, 18));
@@ -552,14 +591,6 @@ $(document).ready(() => {
                     $("#eligibility").html("Eligible To Receive Tokens")
                     $("#withdrawAirdropTokens").removeAttr("disabled")
                 }
-            })
-            $("#withdrawAirdropTokens").on("click", () => {
-                $("#eligibility").html("Please authorize the transaction in your wallet to continue...")
-                $("#withdrawAirdropTokens").attr("disabled", "disabled")
-
-                dropper.withdrawAirdropTokens({"from": myAddress}).then((tx) => {
-                        $("#eligibility").html("Requested. Transaction ID: <a href='https://etherscan.io/tx/"+ tx+"' />"+tx+"</a>");
-                })
             })
 
     }, 5000)
