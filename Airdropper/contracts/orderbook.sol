@@ -90,6 +90,8 @@ contract OrderBook is Administered {
         address sender;
     }
 
+    enum OrderStatus {Pending, Filled, PartialFill};
+
 
     /* Emitted when an order is matched and filled, either partially or completely */
     event OrderFilled(address indexed buyer, address indexed seller, bool partialFill);
