@@ -1,0 +1,47 @@
+        <script type="embedded-js" role="control-script">
+            {
+                "initControl": function(data) {
+                    console.log("/controls/nav.html loaded and bound data is available.");
+                    this.subnavData = {
+                        subnavItems: ["Tom", "Dick", "Harry"]
+                    }
+                }
+
+            }
+        </script>
+        <div class="nav-container">
+            <div class="bg-dark navbar-dark" data-sticky="top">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg">
+                        <a class="navbar-brand" href="index.html">
+                            <img alt="Wingman" src="assets/img/logo-white.svg" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="icon-menu h4"></i>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                            <!-- The control's datasource is organized by menu item type. The topLevel[] items are the main menu items -->
+                            <ul class="navbar-nav">    
+                                <% for (var i=0; i<topLevel.length; i++) {%>
+                                    <li class="nav-item"><%=topLevel[i]%>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                <% } %>
+                            </ul>
+
+                            <!-- Because the data-source is specified, the control will bind to subnavItems (which is local to this control) -->
+                            <!-- Leave the data source blank to cascade the data source passed in here (can still use bind-to to specify a subset) -->
+                            <ctrl src="./controls/subnav.html" data-source="subnavData" id="subnav"></ctrl>
+                            <span id="test"></span>
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a href="landing-1.html#">Sign up</a>
+                                    <span>&nbsp;or&nbsp;</span><a href="landing-1.html#">Sign in</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!--end nav collapse-->
+                    </nav>
+                </div>
+                <!--end of container-->
+            </div>
+        </div>

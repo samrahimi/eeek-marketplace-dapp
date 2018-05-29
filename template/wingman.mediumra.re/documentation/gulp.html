@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52115242-13"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'UA-52115242-13');
+        </script>
+
+        <meta charset="utf-8">
+        <title>Wingman Bootstrap Theme</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A robust suite of app and landing page templates by Medium Rare">
+        <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
+        <link href="../assets/css/socicon.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="../assets/css/entypo.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="../assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    </head>
+
+    <body data-spy="scroll" data-target="#nav-components" data-offset="112" data-smooth-scroll-offset="112">
+
+        <div class="nav-container">
+            <div class="bg-dark navbar-dark" data-sticky="top">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg">
+                        <a class="navbar-brand" href="../index.html">
+                            <img alt="Wingman" src="../assets/img/logo-white.svg" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="icon-menu h4"></i>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a href="../index.html" class="nav-link">Overview</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="gulp.html#" id="pagesDropdown" role="button" data-toggle="dropdown">Pages</a>
+                                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+
+                                        <a class="dropdown-item" href="../pages-landing.html">
+                                            <span class="h6 mb-0">Landing Pages</span>
+                                            <p class="text-small text-muted">Showcase your product in style</p>
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+
+                                        <a class="dropdown-item" href="../pages-app.html">
+                                            <span class="h6 mb-0">App Pages</span>
+                                            <p class="text-small text-muted">Build detailed, functional web apps</p>
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+
+                                        <a class="dropdown-item" href="../pages-inner.html">
+                                            <span class="h6 mb-0">Inner Pages</span>
+                                            <p class="text-small text-muted">Complete your online presence</p>
+                                        </a>
+
+
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="gulp.html#" id="componentsDropdown" role="button" data-toggle="dropdown">Components</a>
+                                    <div class="dropdown-menu" aria-labelledby="componentsDropdown">
+
+                                        <a class="dropdown-item" href="../components-bootstrap.html">Bootstrap</a>
+
+                                        <a class="dropdown-item" href="../components-wingman.html">Wingman</a>
+
+                                    </div>
+                                </li>
+                            </ul>
+
+
+
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a href="index.html" class="nav-link">Docs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="changelog.html" class="nav-link">Changelog <span class="badge badge-secondary mr-2">v1.0.3</span></a>
+                                </li>
+                                <li class="nav-item d-flex align-items-center">
+                                    <a href="https://themes.getbootstrap.com/product/wingman-landing-page-app-template" class="btn btn-success">Purchase Now</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!--end nav collapse-->
+                    </nav>
+                </div>
+                <!--end of container-->
+            </div>
+        </div>
+        <div class="main-container">
+
+            <nav aria-label="breadcrumb" role="navigation" class="text-white position-absolute">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Docs</a>
+                                </li>
+
+
+
+                                <li class="breadcrumb-item active" aria-current="page">Gulp</li>
+                            </ol>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </nav>
+            <section class="bg-primary text-light p-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="space-lg pb-0">
+                                <h1 class="display-4">Gulp</h1>
+                                <span class="lead">
+                                    Using the gulpfile provided with Wingman.
+                                </span>
+                            </div>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+                <svg class="decorative-divider" preserveAspectRatio="none" viewbox="0 0 100 100">
+                    <polygon fill="#F8F9FB" points="0 100 100 100 100 0"></polygon>
+                </svg>
+            </section>
+            <!--end of section-->
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-2 mb-5">
+                            <nav class="nav flex-md-column">
+                                <a href="changelog.html" class="nav-link">Changelog <span class="badge badge-secondary">v1.0.3</span></a>
+                            </nav>
+                            <hr class="short">
+                            <nav class="nav flex-md-column mb-2">
+
+
+                                <a href="index.html" class="nav-link">Getting Started</a>
+
+
+                                <a href="file-structure.html" class="nav-link">File Structure</a>
+
+
+                                <a href="gulp.html" class="active nav-link">Gulp</a>
+
+
+                                <a href="plugins.html" class="nav-link">Plugins</a>
+
+
+                                <a href="customising-css.html" class="nav-link">Customising CSS</a>
+
+
+                                <a href="updating.html" class="nav-link">Updating the Theme</a>
+
+                            </nav>
+
+                        </div>
+                        <!--end of col-->
+                        <div class="col-12 col-md-8">
+
+                            <article id="build--serve--watch">
+                                <h3>
+                                    <p>Build, Serve and Watch: <code>gulp</code>
+                                    </p>
+                                </h3>
+                                <div>
+                                    <p>Running <code>gulp</code> in the Wingman folder will compile the sources to <code>dist</code> then start a local <a href="https://www.browsersync.io/">Browsersync</a> instance on port <code>3000</code> to serve and refresh
+                                        your pages as you edit.</p>
+                                    <p>The default task runs the following operations:</p>
+                                    <ul>
+                                        <li><strong>clean:dist</strong> : The <code>dist</code> folder is emptied. All files in <code>dist</code> are deleted.</li>
+                                        <li><strong>html</strong>: All <code>.html</code> files are copied from <code>pages</code> to <code>dist</code>. Only newer files are copied.</li>
+                                        <li><strong>sass-min</strong>: Compiles <code>theme.css</code> and <code>theme.min.css</code> from <code>scss/theme.scss</code> to the <code>dist/assets/css</code> along with appropriate <code>.map</code> files.</li>
+                                        <li><strong>bootstrap-js</strong>: Compiles and minifies all Bootstrap javascript files to <code>bootstrap.js</code> and <code>bootstrap.min.js</code> in the <code>dist/assets/js</code> folder.</li>
+                                        <li><strong>mrare-js</strong>: Compiles and minifies all Medium Rare javascript files to <code>theme.js</code> and <code>theme.min.js</code> in the <code>dist/assets/js</code> folder.</li>
+                                        <li><strong>copy-assets</strong>: Copies any newer files from <code>pages/assets</code> to <code>dist/pages/assets</code>.</li>
+                                        <li><strong>serve</strong>: Starts a Browsersync instance on port <code>3000</code> served from <code>dist</code>, defaults to <code>index.html</code>.</li>
+                                        <li><strong>watch</strong>: Monitors the following files and runs the corresponding tasks:
+                                            <ul>
+                                                <li><code>pages/*.html</code>, then runs the <strong>html</strong> task.</li>
+                                                <li><code>scss/*.scss</code>, then runs the <strong>sass-min</strong> task.</li>
+                                                <li><code>js/bootstrap/*.js</code>: then runs the <strong>bootstrap-js</strong> task.</li>
+                                                <li><code>js/mrare/*.js</code>: then runs the <strong>mrare-js</strong> task.</li>
+                                                <li><code>assets/*.*</code>: then runs the <strong>copy-assets</strong> task.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <p><strong>NOTE:</strong> Medium Rare javascript is linted through <a href="https://github.com/adametry/gulp-eslint">gulp-eslint</a> according to the <a href="https://www.npmjs.com/package/eslint-config-airbnb">Airbnb rules preset</a>,
+                                        and is configured in the <code>.eslintrc.json</code> file in the project root. If the linting fails, the Gulp process will quit with an error. If you edit any Medium Rare javascript files and encounter a linting error,
+                                        simply correct the error and re-run <code>gulp</code>. This is done to prevent distribution of unlinted code.</p>
+                                    <p>The Browsersync server and Gulp&#39;s <strong>watch</strong> task will continue to run until instructed to quit via Ctrl+C or if the terminal/command window is closed.</p>
+                                    <p>When the server process quits, the <code>dist</code> folder is left intact with the latest version of compiled files within.</p>
+
+                                </div>
+                            </article>
+
+                            <article id="build-only">
+                                <h3>
+                                    <p>Build Only: <code>gulp build</code>
+                                    </p>
+                                </h3>
+                                <div>
+                                    <p>Compiles a full, clean copy of the theme to the dist folder. Does not run <strong>watch</strong> or <strong>serve</strong> (Browsersync) tasks.</p>
+
+                                </div>
+                            </article>
+
+                            <article id="update-dependencies">
+                                <h3>
+                                    <p>Updating dependencies: <code>gulp deps</code>
+                                    </p>
+                                </h3>
+                                <div>
+                                    <p>Conveniently pull in updates to plugin files by running <code>npm update</code>. This downloads the latest files from <a href="https://docs.npmjs.com/getting-started/updating-local-packages">npm</a> and places them in
+                                        the <code>node_modules</code> folder.</p>
+                                    <p>The files must then be moved from <code>node_modules</code> to <code>assets</code>, <code>js</code>, or <code>scss</code>. To automatically move the updated files from <code>node_modules</code> to your source and assets folders,
+                                        run <code>gulp deps</code>.</p>
+                                    <p>Some packages which are not available on npm cannot be updated in this way and must be downloaded and updated manually.</p>
+                                    <p>Bootstrap scss and javascript files are not yet updated in this way as some changes may break the theme. We will release periodic updates to the theme package to provide stable updates for Bootstrap.</p>
+
+                                </div>
+                            </article>
+
+                        </div>
+                        <div class="col">
+                            <nav id="nav-components" class="nav flex-md-column" data-sticky="below-nav">
+
+                                <a data-smooth-scroll href="gulp.html#build--serve--watch" class="nav-link text-small">Build / Serve / Watch</a>
+
+                                <a data-smooth-scroll href="gulp.html#build-only" class="nav-link text-small">Build Only</a>
+
+                                <a data-smooth-scroll href="gulp.html#update-dependencies" class="nav-link text-small">Update dependencies</a>
+
+                            </nav>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+            <!--end of section-->
+            <section class="bg-gradient p-0 text-white">
+                <svg class="decorative-divider" preserveAspectRatio="none" viewbox=" 0 0 100 100">
+                    <polygon fill="#F8F9FB" points="0 0 100 0 100 100"></polygon>
+                </svg>
+                <div class="container space-lg">
+                    <div class="row text-center">
+                        <div class="col">
+                            <h3 class="h1">Start building feature-rich websites</h3>
+                            <a href="https://themes.getbootstrap.com/product/wingman-landing-page-app-template" class="btn btn-lg btn-light">Purchase Now</a>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+            <!--end of section-->
+            <footer class="bg-gray text-light footer-long">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <img alt="Image" src="../assets/img/logo-white.svg" class="mb-4" />
+                            <p class="text-muted">
+                                &copy; 2018 Medium Rare
+                                <br />Template available exclusively
+                                <br />at Bootstrap Themes
+                            </p>
+                        </div>
+                        <!--end of col-->
+                        <div class="col-12 col-md-9">
+                            <span class="h5">A robust suite of styled components for Bootstrap 4</span>
+                            <div class="row no-gutters">
+                                <div class="col-6 col-lg-3">
+                                    <h6>Navigate</h6>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="index.html">Overview</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://wingman.mediumra.re/documentation/pages-landing.html">Landing Pages</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://wingman.mediumra.re/documentation/pages-app.html">App Pages</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://wingman.mediumra.re/documentation/pages-inner.html">Inner Pages</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end of col-->
+                                <div class="col-6 col-lg-3">
+                                    <h6>Platform</h6>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="gulp.html#">Mac OS &amp; iOS</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Android &amp; Chrome OS</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Windows</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Linux</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end of col-->
+                                <div class="col-6 col-lg-3">
+                                    <h6>Community</h6>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="gulp.html#">Forum</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Knowledgebase</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Hire an expert</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">FAQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Contact</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end of col-->
+                                <div class="col-6 col-lg-3">
+                                    <h6>Company</h6>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="gulp.html#">About company</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">History</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Team</a>
+                                        </li>
+                                        <li>
+                                            <a href="gulp.html#">Investment</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end of col-->
+                            </div>
+                            <!--end of row-->
+                        </div>
+                        <!--end of col-->
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </footer>
+        </div>
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+        <script type="text/javascript" src="../assets/js/jquery.smartWizard.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.10/flickity.pkgd.min.js"></script>
+        <script type="text/javascript" src="../assets/js/scrollMonitor.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/12.1.5/js/smooth-scroll.polyfills.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/prism.min.js"></script>
+        <script type="text/javascript" src="../assets/js/zoom.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../assets/js/theme.js"></script>
+
+    </body>
+
+</html>
