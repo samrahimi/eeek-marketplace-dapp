@@ -6,8 +6,16 @@
         <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/jquery"></script>    
+        <style>
+        .ethplorer-widget.theme-ethplorer
+        {
+            background-color:black !important;
+        }
+        </style>
     </head>
     <body class="container" style="padding-top: 3%;">
+    <script type="text/javascript" src="ejs.js"></script>
+    <script type="text/javascript" src="constants.js"></script>
     <script type="text/javascript" src="main.js"></script>
     
     <div style="display:none" id="needMetamask" class="row">
@@ -89,7 +97,18 @@
 
     <p>Your Airdrop Status: <span id="eligibility">Please wait...</span></p>
     <button id="withdrawAirdropTokens" style="width:100%;">Get My Tokens</button>
-    
+
+
+    <div class="row">
+        <!-- YEEK Recent Transaction History -->
+        <div class="column">
+        </div>
+        <div class="column">
+        </div>
+    </div>
+
+    <yeek-template></yeek-template>
+
 
     </body>
 </html>

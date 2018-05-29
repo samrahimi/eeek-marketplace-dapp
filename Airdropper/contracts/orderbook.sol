@@ -90,7 +90,6 @@ contract OrderBook is Administered {
         address sender;
     }
 
-    enum OrderStatus {Pending, Filled, PartialFill};
 
 
     /* Emitted when an order is matched and filled, either partially or completely */
@@ -124,7 +123,7 @@ contract OrderBook is Administered {
         uint amount = _amount;
 
         while (amount > 0) {
-            if (_maxPrice >= sellOrderBook[sellOrderBook.length - 1].price) {
+            if (sellOrderBook.length > 0 && _maxPrice >= sellOrderBook[sellOrderBook.length - 1].price) {
                 if (amount <= sellOrderBook[sellOrderBook.length - 1].quantity) {
                     tokenContract.transfer(msg.sender, amount); //Send tokens to buyer
                     //Send ether to seller
@@ -144,10 +143,11 @@ contract OrderBook is Administered {
                     uint qty = sellOrderBook[sellOrderBook.length - 1].quantity;
                     require (amount > qty); //SANITY CHECK
                     tokenContract.transfer(msg.sender, qty); //Send tokens to buyer
-                    uint fundsToSend = (qty * sellOrderBook[sellOrderBook.length - 1].price);   //Tally the ether to send to seller
+                    uint fundsToSend = (qty * sellOrderBook[sellOrderBook.length - 1].price);         //Tally the ether to send to seller
                     uint fee = (fundsToSend * buyCommissionPips / 10000);
                     sellOrderBook[sellOrderBook.length - 1].sender.transfer(fundsToSend - fee);       //Pay the seller
-                    feeCollector.transfer(fee)
+                    if (fee > 0)
+                        feeCollector.transfer(fee);
                     _deleteOrder((sellOrderBook.length -1), false);                             //Delete the sell order, as it has been filled
                     amount -= qty;
 
@@ -172,7 +172,7 @@ contract OrderBook is Administered {
             //offer to buy, and hence is most likely to match the sell offer 
             
             //If there are buy offers of equal or greater value, match and fill
-            if (buyOrderBook[buyOrderBook.length - 1].price >= _minPrice) {
+            if (buyOrderBook.length > 0 && buyOrderBook[buyOrderBook.length - 1].price >= _minPrice) {
                 // Buy order found for equal or greater number of tokens than the amount remainig
                 if (amount <= buyOrderBook[buyOrderBook.length - 1].quantity) {
                     //The seller's order is completely filled, the buyer's may or may not be
@@ -205,7 +205,8 @@ contract OrderBook is Administered {
         }
         //Always send ether last!
         if (etherOwing > 0) {
-            feeCollector.transfer(etherOwing * sellCommissionPips / 10000);
+            if (sellCommissionPips > 0)
+                feeCollector.transfer(etherOwing * sellCommissionPips / 10000);
             msg.sender.transfer(etherOwing - (etherOwing * sellCommissionPips / 10000)); 
         }
     }
