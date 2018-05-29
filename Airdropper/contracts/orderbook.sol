@@ -13,7 +13,6 @@ interface ITradeableAsset {
    and may transfer ownership to another individual address */
 contract Administered {
     address public creator;
-    address public feeCollector;
 
     mapping (address => bool) public admins;
     
@@ -75,7 +74,8 @@ contract OrderBook is Administered {
     uint sellCommissionPips = 0; 
 
     //The token which is being bought and sold
-    ITradeableAsset tokenContract;
+    ITradeableAsset public tokenContract;
+    address public feeCollector;
 
     //The counter-currency is always Ethereum
     
@@ -98,7 +98,7 @@ contract OrderBook is Administered {
     /* Sets up the order book, which is ready for trading immediately 
        Note that you must explicitly call setCommissionRates if you 
        want to charge commission on trades */
-    function OrderBook(address _tokenContract, address _feeCollector) public {
+    constructor(address _tokenContract, address _feeCollector) public {
         tokenContract = ITradeableAsset(_tokenContract);
         feeCollector = _feeCollector;
     }
@@ -131,7 +131,7 @@ contract OrderBook is Administered {
                         sellOrderBook[sellOrderBook.length - 1].price * _amount
                     );
                     if (amount == sellOrderBook[sellOrderBook.length - 1].quantity)
-                        _deleteOrder((sellOrderBook.length - 1), true);
+                        _deleteOrder((sellOrderBook.length - 1), false);
                     else
                         sellOrderBook[sellOrderBook.length - 1].quantity -= amount;
 
