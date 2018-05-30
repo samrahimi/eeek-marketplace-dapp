@@ -15,82 +15,7 @@
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="assets/js/ejs.js"></script>
-        <script>
-                let loadedControls ={};
-
-                let renderDefaultEjsTemplate =  function(bindingData) {
-                    let markup = $("script[template-engine='ejs']").html();
-                    let rendered = ejs.render(markup, bindingData)
-                    $("script[template-engine='ejs']").replaceWith(rendered);
-                }
-                //Treats the entire control as an ejs template
-                let renderControl= function(markup, bindingData) {
-                    return ejs.render(markup, bindingData);
-                }
-                let loadControls = function(bindingData, parentId) {
-                    $("ctrl").each(function() {
-                      //Async load the control from the server
-                      $.get($(this).attr("src"), (contentHtml) => {
-                        let ctrlid = $(this).attr("id") //NOTE: $(this) refers to the control template currently being processed
-                        let renderedControl = "";
-                        let scopedData = null;
-                        
-                        //If data source is specified, bind to that variable IN THE PARENT CONTROL'S SCOPE
-                        if (typeof $(this).attr("data-source") !== 'undefined') {
-                            scopedData = loadedControls[parentId][$(this).attr("data-source")];
-                        //If we have the parent id but no binding data passed in, use the default
-                        //which is whatever is currently bound to the parent
-                        } else {
-                            if (typeof bindingData === 'undefined')
-                                scopedData = loadedControls[parentId].data_source;
-                            //Use the binding data passed in, optionally scoped to a subset
-                            else {
-                                if (typeof $(this).attr("bind-to") === 'undefined') 
-                                scopedData = bindingData
-                            else 
-                                scopedData = eval("bindingData."+$(this).attr("bind-to"))
-                            }
-                        } 
-
-                        renderedControl = renderControl(contentHtml, scopedData);
-                        $(this).replaceWith(renderedControl);
-
-
-                        let initScript = $("script[role='control-script']").html();
-                        $("script[role='control-script']").attr("role", "control-init"); //So that we don't have multiple scripts in the query above. This is hacky as shit.
-
-                        
-                        //If the control includes code to run on load, run it now.
-                        if (typeof initScript !== "undefined" && initScript.length > 0) {
-                            try {
-                                eval("loadedControls[ctrlid] = "+initScript);
-                                loadedControls[ctrlid].initControl(scopedData);
-                                //Each control's data gets bundled with it, in case it is required later.
-                                loadedControls[ctrlid].data_source=scopedData;
-
-                            } catch (x) {
-                                console.log(JSON.stringify(x));
-                            }
-                        } else {
-                            //We still bundle the data if there's no init script
-                            loadedControls[ctrlid] = {data_source: scopedData}
-                        }
-                        
-
-                        //Recursively call loadControls with the scoped data... this will load any child controls of the control just loaded
-                        loadControls(scopedData, ctrlid);
-                    })
-                  })
-                }
-
-                $(document).ready(() => {
-                    //Declarative import of HTML web controls using <ctrl> tag
-                    window.data =  {hamsters: ["Sam", "Tammy", "Janet", "Jeremy"], menuData: {topLevel:["Home", "About", "Penis"]}}
-                    renderDefaultEjsTemplate(data);
-                    loadControls(data);
-                })
-
-        </script>
+        <script type="text/javascript" src="assets/js/ejs-controller.js"></script>
     </head>
 
     <body>
@@ -98,584 +23,369 @@
             <!-- The control is treated as an EJS template and bound to data.menuData -->
             <!-- If bind-to is omitted, control will be bound to data, above (or whatever the default dataset is for the page -->
             <ctrl src="./controls/nav.html" id="mainNav" bind-to="menuData"></ctrl>
-            <div class="main-container">
-                    <h1>Hamsters</h1>
-                    <% for (var i=0; i<hamsters.length; i++) {%>
-                        <%=hamsters[i]%><br />
-                    <%}%>
-            </div>
-    
         </script>
-        <div style="display:none">
-
-            <div class="nav-container">
-                    <div class="bg-dark navbar-dark" data-sticky="top">
-                        <div class="container">
-                            <nav class="navbar navbar-expand-lg">
-                                <a class="navbar-brand" href="index.html">
-                                    <img alt="Wingman" src="assets/img/logo-white.svg" />
-                                </a>
-                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                    <i class="icon-menu h4"></i>
-                                </button>
-                                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a href="index.html" class="nav-link">Overview</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="landing-1.html#" id="pagesDropdown" role="button" data-toggle="dropdown">Pages</a>
-                                            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-        
-                                                <a class="dropdown-item" href="pages-landing.html">
-                                                    <span class="h6 mb-0">Landing Pages</span>
-                                                    <p class="text-small text-muted">Showcase your product in style</p>
-                                                </a>
-        
-                                                <div class="dropdown-divider"></div>
-        
-        
-                                                <a class="dropdown-item" href="pages-app.html">
-                                                    <span class="h6 mb-0">App Pages</span>
-                                                    <p class="text-small text-muted">Build detailed, functional web apps</p>
-                                                </a>
-        
-                                                <div class="dropdown-divider"></div>
-        
-        
-                                                <a class="dropdown-item" href="pages-inner.html">
-                                                    <span class="h6 mb-0">Inner Pages</span>
-                                                    <p class="text-small text-muted">Complete your online presence</p>
-                                                </a>
-        
-        
-                                            </div>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="landing-1.html#" id="componentsDropdown" role="button" data-toggle="dropdown">Components</a>
-                                            <div class="dropdown-menu" aria-labelledby="componentsDropdown">
-        
-                                                <a class="dropdown-item" href="components-bootstrap.html">Bootstrap</a>
-        
-                                                <a class="dropdown-item" href="components-wingman.html">Wingman</a>
-        
-                                            </div>
-                                        </li>
-                                    </ul>
-        
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a href="landing-1.html#">Sign up</a>
-                                            <span>&nbsp;or&nbsp;</span><a href="landing-1.html#">Sign in</a>
-                                        </li>
-                                    </ul>
-        
-                                </div>
-                                <!--end nav collapse-->
-                            </nav>
-                        </div>
-                        <!--end of container-->
-                    </div>
-                </div>
-        
             <div class="main-container">
-                <section class="bg-dark space-lg">
-                    <img alt="Image" src="assets/img/graphic-bg-clouds-2.png" class="bg-image" />
-                    <div class="container">
-                        <div class="row align-items-center justify-content-between">
-                            <div class="col-12 col-md-6 col-lg-5 section-intro">
-                                <h1 class="display-3">Build a stunning website</h1>
-                                <span class="lead">
-                                    A robust suite of styled components, powered by Bootstrap 4. Ready to take your Website or App up a notch?
-                                </span>
-                            </div>
-                            <!--end of col-->
-                            <div class="col-12 col-md-6 col-lg-5">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="exampleInputUsername">Username</label>
-                                                <input type="text" class="form-control form-control-lg" id="exampleInputUsername" aria-describedby="usernameHelp" placeholder="Pick a username">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail">Email address</label>
-                                                <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-                                                <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword">Password</label>
-                                                <input type="password" class="form-control form-control-lg" id="exampleInputPassword" placeholder="Password">
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" value="agree" name="agree-terms" id="check-agree">
-                                                    <label class="custom-control-label text-small" for="check-agree">I agree to the <a href="landing-1.html#">Terms &amp; Conditions</a>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-lg btn-success btn-block">Sign up for Wingman</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section>
-                    <div class="container">
-                        <div class="row justify-content-center text-center section-intro">
-                            <div class="col-12 col-md-9 col-lg-8">
-                                <span class="title-decorative">Meet The Future</span>
-                                <h2 class="display-4">Introducing a new way</h2>
-                                <span class="lead">An opportunity to introduce the major benefits of your product and set the scene for what's to come</span>
-
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-                        <div class="row justify-content-center">
-                            <div class="col-md-8 col-sm-10">
-                                <div class="video-cover rounded">
-                                    <img alt="Image" src="assets/img/photo-woman-kitchen.jpg" class="bg-image" />
-                                    <div class="video-play-icon">
-                                        <i class="icon-controller-play"></i>
-                                    </div>
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" data-src="https://www.youtube.com/embed/oYqvpjKJZkU?autoplay=1&amp;mute=1&amp;showinfo=0&amp;rel=0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <!--end of video cover-->
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-                        <div class="row justify-content-center text-center section-outro">
-                            <div class="col-lg-4 col-md-5">
-                                <h6>Introducing a new way</h6>
-                                <p>An opportunity to introduce the major benefits of your product and set the scene for what's to come</p>
-                                <a href="landing-1.html#">View more features &rsaquo;</a>
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section>
-                    <div class="container">
-
-                        <div class="row justify-content-center text-center section-intro">
-                            <div class="col-12 col-md-9 col-lg-8">
-                                <span class="title-decorative">Welcome Home</span>
-                                <h2 class="display-4">Greatly simplified workflow</h2>
-                                <span class="lead">An opportunity to introduce the major benefits of your product and set the scene for what's to come</span>
-
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-
-                        <div class="row justify-content-around">
-
-                            <div class="col-md-5 col-7 mb-4">
-                                <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="content-1" role="tabpanel" arialabelledby="content-1-tab">
-                                        <img alt="Image" class="img-fluid w-100" src="assets/img/graphic-desktop.svg" />
-                                    </div>
-                                    <div class="tab-pane fade" id="content-2" role="tabpanel" arialabelledby="content-2-tab">
-                                        <img alt="Image" class="img-fluid w-100" src="assets/img/graphic-fingerprint.svg" />
-                                    </div>
-                                    <div class="tab-pane fade" id="content-3" role="tabpanel" arialabelledby="content-3-tab">
-                                        <img alt="Image" class="img-fluid w-100" src="assets/img/graphic-envelope.svg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end of col-->
-                            <div class="col-lg-5 col-md-8 mb-4">
-                                <ul class="nav nav-cards" role="tablist">
-                                    <li>
-                                        <div class="card active" data-toggle="tab" href="#content-1" role="tab" aria-controls="content-1" aria-selected="true">
-                                            <div class="card-body">
-                                                <div class="media align-items-center">
-                                                    <div class="step-circle mr-4">1</div>
-                                                    <div class="media-body">
-                                                        <h5>Create an account</h5>
-                                                        <span>
-                                                            It’s even easier than it sounds, you just need an email address
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="card" data-toggle="tab" href="#content-2" role="tab" aria-controls="content-2" aria-selected="false">
-                                            <div class="card-body">
-                                                <div class="media align-items-center">
-                                                    <div class="step-circle mr-4">2</div>
-                                                    <div class="media-body">
-                                                        <h5>Start a project</h5>
-                                                        <span>
-                                                            With tons of tutorials and examples, this part is even easier than the last
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="card" data-toggle="tab" href="#content-3" role="tab" aria-controls="content-3" aria-selected="false">
-                                            <div class="card-body">
-                                                <div class="media align-items-center">
-                                                    <div class="step-circle mr-4">3</div>
-                                                    <div class="media-body">
-                                                        <h5>Deploy and conquer</h5>
-                                                        <span>
-                                                            That was easy, right? Now it’s time to deploy that badboy and let the world know
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!--end of col-->
+                    <section class="bg-dark space-sm">
+                        <div class="container" style="text-align:center">
+                                <h1>Featured Companies</h1>
 
                         </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section class="bg-white fullwidth-split">
-                    <div class="container-fluid">
-                        <div class="row no-gutters">
-                            <div class="col-12 col-sm-5 col-lg-6 order-sm-2 fullwidth-split-image">
-                                <img alt="Image" src="assets/img/photo-woman-writing.jpg" class="bg-image" />
+                        <div class="main-carousel" data-flickity='{ "cellAlign": "center", "contain": true, "prevNextButtons": false, "pageDots":false, "wrapAround":true, "autoPlay":5000, "imagesLoaded":true }'>
+        
+        
+                            <div class="carousel-cell col-9 col-md-8 col-lg-5 text-center">
+                                <a href="app-collection-list.html#" class="d-block mb-3">
+                                    <img alt="Image" src="assets/img/graphic-product-bench.jpg" class="img-fluid rounded" />
+                                </a>
+                                <span class="h6">Bench - Accounting for creative people</span>
                             </div>
-                            <!--end of col-->
-                            <div class="col-12 col-sm-7 col-lg-6 order-sm-1 fullwidth-split-text">
-                                <div class="col-12 col-sm-8">
-                                    <h3 class="h1">Synced for your convenience</h3>
-                                    <span class="lead">Fuss-free and simple to use</span>
-                                    <hr class="short" />
-                                    <ul class="feature-list feature-list-sm">
-                                        <li>
-                                            <div class="media">
-                                                <i class="icon-hand mr-2"></i>
-                                                <div class="media-body">
-                                                    <h6>Media</h6>
-                                                    <p>
-                                                        A short description of the aforementioned facet to easily digest. No need to divulge too much information in this text area.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <i class="icon-layers mr-2"></i>
-                                                <div class="media-body">
-                                                    <h6>Cards</h6>
-                                                    <p>
-                                                        Another brief description of a facet that, as before, doesn't need to go into great detail.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <a href="landing-1.html#" class="text-small">Learn more about Sync &rsaquo;</a>
-                                </div>
+        
+        
+        
+                            <div class="carousel-cell col-9 col-md-8 col-lg-5 text-center">
+                                <a href="app-collection-list.html#" class="d-block mb-3">
+                                    <img alt="Image" src="assets/img/graphic-product-kin.jpg" class="img-fluid rounded" />
+                                </a>
+                                <span class="h6">Kin - The digital fashion assistant</span>
                             </div>
-                            <!--end of col-->
+        
+        
+        
+                            <div class="carousel-cell col-9 col-md-8 col-lg-5 text-center">
+                                <a href="app-collection-list.html#" class="d-block mb-3">
+                                    <img alt="Image" src="assets/img/graphic-product-paydar.jpg" class="img-fluid rounded" />
+                                </a>
+                                <span class="h6">Paydar - Location based touch payments</span>
+                            </div>
+        
+        
+        
+        
+        
+                            <div class="carousel-cell col-9 col-md-8 col-lg-5 text-center">
+                                <a href="app-collection-list.html#" class="d-block mb-3">
+                                    <img alt="Image" src="assets/img/graphic-product-pitstop.jpg" class="img-fluid rounded" />
+                                </a>
+                                <span class="h6">Pitstop - Browser-based project management</span>
+                            </div>
+        
+        
+        
+        
                         </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section class="bg-white fullwidth-split">
-                    <div class="container-fluid">
-                        <div class="row no-gutters">
-                            <div class="col-12 col-sm-5 col-lg-6 fullwidth-split-image">
-                                <img alt="Image" src="assets/img/photo-man-phone.jpg" class="bg-image" />
-                            </div>
-                            <!--end of col-->
-                            <div class="col-12 col-sm-7 col-lg-6 fullwidth-split-text">
-                                <div class="col-12 col-sm-8">
-                                    <h3 class="h1">It's everything, all in one place</h3>
-                                    <span class="lead">Unifying your team's workflow</span>
-                                    <hr class="short" />
-                                    <ul class="feature-list feature-list-sm">
-                                        <li>
-                                            <div class="media">
-                                                <i class="icon-folder-images mr-2"></i>
-                                                <div class="media-body">
-                                                    <h6>Images</h6>
-                                                    <p>
-                                                        A short description of the aforementioned facet to easily digest. No need to divulge too much information in this text area.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <i class="icon-open-book mr-2"></i>
-                                                <div class="media-body">
-                                                    <h6>Notes</h6>
-                                                    <p>
-                                                        Another brief description of a facet that, as before, doesn't need to go into great detail.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <a href="landing-1.html#" class="text-small">Learn more about Workflow &rsaquo;</a>
-                                </div>
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section>
-                    <div class="container">
-
-                        <div class="row justify-content-center text-center section-intro">
-                            <div class="col-12 col-md-9 col-lg-8">
-                                <span class="title-decorative">Case Studies</span>
-                                <h2 class="display-4">They came, they conquered</h2>
-                                <span class="lead">An opportunity to introduce the major benefits of your product and set the scene for what's to come</span>
-
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-
-                        <div class="row">
-
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="card card-lg">
-                                    <a href="landing-1.html#">
-                                        <img class="card-img-top" src="assets/img/photo-couple-couch.jpg" alt="Pit Stop">
-                                    </a>
-                                    <div class="card-body">
-                                        <h4 class="card-title">Pit Stop</h4>
-                                        <p class="card-text">Pitstop launched their MVP in under 3 months with Wingman</p>
-                                        <a href="landing-1.html#">Read their story &rsaquo;</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end of col-->
-
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="card card-lg">
-                                    <a href="landing-1.html#">
-                                        <img class="card-img-top" src="assets/img/photo-man-book.jpg" alt="Bench">
-                                    </a>
-                                    <div class="card-body">
-                                        <h4 class="card-title">Bench</h4>
-                                        <p class="card-text">Bench built their business-facing invoicing system with Wingman.</p>
-                                        <a href="landing-1.html#">Read their story &rsaquo;</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end of col-->
-
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="card card-lg">
-                                    <a href="landing-1.html#">
-                                        <img class="card-img-top" src="assets/img/photo-man-box.jpg" alt="Movend">
-                                    </a>
-                                    <div class="card-body">
-                                        <h4 class="card-title">Movend</h4>
-                                        <p class="card-text">Movend delivered their customers a more streamlined moving experience.</p>
-                                        <a href="landing-1.html#">Read their story &rsaquo;</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end of col-->
-
-                        </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section class="bg-white">
-                    <div class="container">
-                        <div class="row section-intro">
-                            <div class="col text-center">
-                                <h3 class="h1">Don’t wait, sign up now for a 30 day trial.</h3>
-                            </div>
-                            <!--end of col-->
-                        </div>
-                        <!--end of row-->
-                        <form>
+                    </section>
+                    <section>
+                        <div class="container">
                             <div class="row">
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input id="username" type="text" class="form-control form-control-lg" placeholder="Pick a username">
+                                <div class="col-12 col-md-auto mb-5">
+                                    <form class="mb-4">
+                                        <input class="form-control" placeholder="Search" type="text" name="search-table" />
+                                    </form>
+                                    <nav class="nav flex-md-column">
+                                        <ctrl id="hamsterList" src="./controls/hamster.html"></ctrl>
+                                    </nav>
+                                </div>
+                                <!--end of col-->
+                                <div class="col">
+                                    <div class="card card-sm">
+                                        <div id="gigTypeLabel" class="card-header d-flex bg-secondary justify-content-between align-items-center">
+                                            <div>
+                                              <script type="text/html" template-engine="ejs">
+                                                <h6><%=data.hamsters[0]%> Gigs </h6>
+                                              </script>
+                                            </div>
+                                            <form class="d-flex align-items-center">
+                                                <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>
+                                                <select class="custom-select">
+                                                    <option value="alpha">Alphabetical</option>
+                                                    <option value="old-new" selected>Newest</option>
+                                                    <option value="new-old">Popular</option>
+                                                    <option value="recent">Recently Updated</option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-sidekick-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>Sidekick</h4>
+                                                                </a>
+                                                                <span>Holistic fitness tracking</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="SidekickButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="SidekickButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Health &amp; Fitness</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 221</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 14</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-pitstop-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>Pitstop</h4>
+                                                                </a>
+                                                                <span>Browser-based project management</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="PitstopButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="PitstopButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Productivity</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 90</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 34</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-pipeline-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>pipeline.js</h4>
+                                                                </a>
+                                                                <span>Snappy UI interaction library with flexible API</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="pipeline.jsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="pipeline.jsButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Development</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 84</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 25</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-paydar-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>Paydar</h4>
+                                                                </a>
+                                                                <span>Location based touch payments</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="PaydarButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="PaydarButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Productivity</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 253</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 19</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-kin-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>Kin</h4>
+                                                                </a>
+                                                                <span>The digital fashion assistant</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="KinButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="KinButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Lifestyle</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 84</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 21</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                            <li class="list-group-item">
+                                                <div class="media align-items-center">
+                                                    <a href="app-collection-list.html#" class="mr-4">
+                                                        <img alt="Image" src="assets/img/graphic-product-bench-thumb.jpg" class="rounded avatar avatar-lg" />
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <div>
+                                                                <a href="app-collection-list.html#" class="mb-1">
+                                                                    <h4>Bench</h4>
+                                                                </a>
+                                                                <span>Accounting for creative people</span>
+                                                            </div>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="BenchButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="icon-dots-three-horizontal"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="BenchButton">
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Save</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Share</a>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Comment</a>
+                                                                    <div class="dropdown-divider"></div>
+                                                                    <a class="dropdown-item" href="app-collection-list.html#">Report</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="badge badge-secondary badge-pill mb-2" href="app-collection-list.html#">Productivity</a>
+                                                        <div class="text-small">
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i class="icon-heart"></i> 373</li>
+                                                                <li class="list-inline-item"><i class="icon-message"></i> 62</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+        
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="email">Email Address</label>
-                                        <input id="email" type="email" class="form-control form-control-lg" placeholder="you@domain.com">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input id="password" type="password" class="form-control form-control-lg" placeholder="Choose a password">
-                                        <small class="form-text">At least seven letters with one numeral</small>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="form-group">
-                                        <label for="button">&nbsp;</label>
-                                        <button id="button" type="submit" class="btn btn-lg btn-block btn-success">Sign up for Wingman</button>
-                                    </div>
-                                </div>
+                                <!--end of col-->
                             </div>
                             <!--end of row-->
-                        </form>
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <section class="space-xs text-center bg-gradient text-light">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <i class="mr-1 icon-cake"></i>
-                                <span class="mr-2">Use this handy announcement bar to talk about new features</span>
-                                <a href="landing-1.html#" class="text-white">View changelog &rsaquo;</a>
-                            </div>
-                            <!--end of col-->
                         </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </section>
-                <!--end of section-->
-
-                <footer class="bg-gray text-light footer-long">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <img alt="Image" src="assets/img/logo-white.svg" class="mb-4" />
-                                <p class="text-muted">
-                                    &copy; 2018 Medium Rare
-                                    <br />Template available exclusively
-                                    <br />at Bootstrap Themes
-                                </p>
-                            </div>
-                            <!--end of col-->
-                            <div class="col-12 col-md-9">
-                                <span class="h5">A robust suite of styled components for Bootstrap 4</span>
-                                <div class="row no-gutters">
-                                    <div class="col-6 col-lg-3">
-                                        <h6>Navigate</h6>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="index.html">Overview</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-landing.html">Landing Pages</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-app.html">App Pages</a>
-                                            </li>
-                                            <li>
-                                                <a href="pages-inner.html">Inner Pages</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--end of col-->
-                                    <div class="col-6 col-lg-3">
-                                        <h6>Platform</h6>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="landing-1.html#">Mac OS &amp; iOS</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Android &amp; Chrome OS</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Windows</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Linux</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--end of col-->
-                                    <div class="col-6 col-lg-3">
-                                        <h6>Community</h6>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="landing-1.html#">Forum</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Knowledgebase</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Hire an expert</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">FAQ</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Contact</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--end of col-->
-                                    <div class="col-6 col-lg-3">
-                                        <h6>Company</h6>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="landing-1.html#">About company</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">History</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Team</a>
-                                            </li>
-                                            <li>
-                                                <a href="landing-1.html#">Investment</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--end of col-->
+                        <!--end of container-->
+                    </section>
+                    <!--end of section-->
+                    <footer class="footer-short">
+                        <div class="container">
+                            <hr>
+                            <nav class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#">
+                                                <img alt="Image" src="assets/img/logo-gray.svg" />
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#">Overview</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#">Documentation</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#">Changelog</a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <!--end of row-->
+                                <!--end of col-->
+                                <div class="col-auto text-sm-right">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#"><i class="socicon-twitter"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="app-collection-list.html#"><i class="socicon-facebook"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end of col-->
+                            </nav>
+                            <!--end of row-->
+                            <div class="row">
+                                <div class="col">
+                                    <small>&copy; 2018 Medium Rare All Rights Reserved</small>
+                                </div>
+                                <!--end of col-->
                             </div>
-                            <!--end of col-->
+                            <!--end of row-->
                         </div>
-                        <!--end of row-->
-                    </div>
-                    <!--end of container-->
-                </footer>
-            </div>
+                        <!--end of container-->
+                    </footer>
         </div>
+            
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
         <script type="text/javascript" src="assets/js/jquery.smartWizard.min.js"></script>
