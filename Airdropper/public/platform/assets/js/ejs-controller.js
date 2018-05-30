@@ -106,7 +106,10 @@ let loadControls = function(bindingData, parentId) {
         } 
 
         renderedControl = renderControl(contentHtml, scopedData);
-        $(this).replaceWith("<div id='"+ctrlid+"'>"+renderedControl+"</div>");
+        if ($(this).attr('doNotWrap') && $(this).attr("doNotWrap") == "true")
+            $(this).replaceWith(renderedControl);
+        else
+            $(this).replaceWith("<span id='"+ctrlid+"'>"+renderedControl+"</span>");
 
         let initScript = $("script[role='control-script']").html();
         $("script[role='control-script']").attr("role", "control-init"); //So that we don't have multiple scripts in the query above. This is hacky as shit.
@@ -148,9 +151,14 @@ let loadControls = function(bindingData, parentId) {
 
 $(document).ready(() => {
     //Declarative import of HTML web controls using <ctrl> tag
-    window.data =  
-    {hamsters: ["Trending", "Social Media", "Design", "Programming", "Marketing", "Writing", "Creative"], 
-    menuData: {topLevel:["Platform (Beta)", "Company", "Token", "Exchange"]}}
-    renderDefaultEjsTemplate(data);
-    loadControls(data);
+    window.model =  
+    {
+        categories: ["All","Trending", "Social Media", "Design", "Programming", "Marketing", "Writing", "Creative"], 
+        menuData: {
+            topLevel:["Platform (Beta)", "Company", "Token", "Exchange"],
+            pageTitle: "Available Gigs"
+        }
+    }
+    renderDefaultEjsTemplate(model);
+    loadControls(model);
 })

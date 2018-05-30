@@ -6,7 +6,8 @@
 
         <meta charset="utf-8">
         <title>Wingman Bootstrap Theme</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- since we're going to wrap this up into a native app, disable zooming on mobile -->
+        <meta name='viewport'  content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
         <meta name="description" content="A robust suite of app and landing page templates by Medium Rare">
         <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
         <link href="assets/css/socicon.css" rel="stylesheet" type="text/css" media="all" />
@@ -19,17 +20,9 @@
     </head>
 
     <body>
-        <script type="text/html" template-engine="ejs">
-            <!-- The control is treated as an EJS template and bound to data.menuData -->
-            <!-- If bind-to is omitted, control will be bound to data, above (or whatever the default dataset is for the page -->
-            <ctrl src="./controls/nav.html" id="mainNav" bind-to="menuData"></ctrl>
-        </script>
+            <ctrl src="./controls/nav.html?666" id="mainNav" bind-to="menuData" doNotWrap="true"></ctrl>
             <div class="main-container">
                     <section class="bg-dark space-sm">
-                        <div class="container" style="text-align:center">
-                                <h1>Featured Companies</h1>
-
-                        </div>
                         <div class="main-carousel" data-flickity='{ "cellAlign": "center", "contain": true, "prevNextButtons": false, "pageDots":false, "wrapAround":true, "autoPlay":5000, "imagesLoaded":true }'>
         
         
@@ -77,31 +70,31 @@
                     <section>
                         <div class="container">
                             <div class="row">
-                                <div class="col-12 col-md-auto mb-5">
+                                <div class="col-12 col-md-auto mb-5 d-none d-md-block">
                                     <form class="mb-4">
                                         <input class="form-control" placeholder="Search" type="text" name="search-table" />
                                     </form>
-                                    <nav class="nav flex-md-column">
-                                        <ctrl id="hamsterList" src="./controls/hamster.html"></ctrl>
-                                    </nav>
+                                    <div class="">
+                                        <nav class="nav flex-md-column">
+                                            <ctrl id="categoriesDesktop" src="./controls/category_list.html"></ctrl>
+                                        </nav>
+                                    </div>
                                 </div>
                                 <!--end of col-->
                                 <div class="col">
                                     <div class="card card-sm">
-                                        <div id="gigTypeLabel" class="card-header d-flex bg-secondary justify-content-between align-items-center">
-                                            <div>
-                                              <script type="text/html" template-engine="ejs">
-                                                <h6><%=data.hamsters[0]%> Gigs </h6>
-                                              </script>
-                                            </div>
-                                            <form class="d-flex align-items-center">
-                                                <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>
-                                                <select class="custom-select">
+                                        <!-- Sort and Filter -->
+                                        <div class="card-header d-flex bg-secondary justify-content-between align-items-center">
+                                            <span class="mr-2 text-muted text-small text-nowrap">Category:</span>
+                                            <ctrl src="./controls/category_list_mobile.html" id="categoriesMobile" doNotWrap="true"></ctrl>
+
+                                            <span class="mr-2 text-muted text-small text-nowrap">&nbsp;&nbsp;Sort:</span>
+                                            <select class="custom-select">
                                                     <option value="alpha">Alphabetical</option>
                                                     <option value="old-new" selected>Newest</option>
                                                     <option value="new-old">Popular</option>
                                                     <option value="recent">Recently Updated</option>
-                                                </select>
+                                            </select>
                                             </form>
                                         </div>
                                         <ul class="list-group list-group-flush">
