@@ -2,21 +2,38 @@
 <html lang="en">
 
     <head>
-
-
         <meta charset="utf-8">
-        <title>Wingman Bootstrap Theme</title>
-        <!-- since we're going to wrap this up into a native app, disable zooming on mobile -->
-        <meta name='viewport'  content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-        <meta name="description" content="A robust suite of app and landing page templates by Medium Rare">
+        <script type="text/html" template-engine="ejs">
+            <title><%=menuData.pageTitle%></title>
+            <!-- since we're going to wrap this up into a native app, disable zooming on mobile -->
+            <meta name='viewport'  content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+            <meta name="description" content="<%=menuData.pageDescription%>">
+        </script>
         <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
         <link href="assets/css/socicon.css" rel="stylesheet" type="text/css" media="all" />
         <link href="assets/css/entypo.css" rel="stylesheet" type="text/css" media="all" />
         <link href="assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
-
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="assets/js/ejs.js"></script>
-        <script type="text/javascript" src="assets/js/ejs-controller.js"></script>
+        <script type="text/javascript" src="assets/js/ejs-controller.js?v2"></script>
+        <script>
+        $(document).ready(() => {
+            //Declarative import of HTML web controls using <ctrl> tag
+            window.model =  
+            {
+                categories: ["All","Trending", "Social Media", "Design", "Programming", "Marketing", "Writing", "Creative"], 
+                menuData: {
+                    topLevel:["Platform (Beta)", "Company", "Token", "Exchange"],
+                    pageTitle: "Available Gigs",
+                    pageDescription:"Browse the available gigs, pick the one that suits you, and make some quick coin."
+                }
+            }
+            renderDefaultEjsTemplate(model);
+            loadControls(model);
+            
+        })
+
+        </script>
     </head>
 
     <body>

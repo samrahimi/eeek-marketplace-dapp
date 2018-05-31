@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/html" template-engine="ejs">
+            <title><%=menuData.pageTitle%></title>
+            <!-- since we're going to wrap this up into a native app, disable zooming on mobile -->
+            <meta name='viewport'  content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+            <meta name="description" content="<%=menuData.pageDescription%>">
+        </script>
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500" rel="stylesheet">
+    <link href="assets/css/socicon.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="assets/css/entypo.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/ejs.js"></script>
+    <script type="text/javascript" src="assets/js/ejs-controller.js?v10"></script>
+    <script>
+        $(document).ready(() => {
+            //Declarative import of HTML web controls using <ctrl> tag
+            window.model =
+                {
+                    menuData: {
+                        topLevel: ["Platform (Beta)", "Company", "Token", "Exchange"],
+                        pageTitle: "My Gigs",
+                        pageDescription: "What you're currently working on."
+                    }
+                }
+            renderDefaultEjsTemplate(model);
+            loadControls(model);
+
+        })
+
+    </script>
+</head>
+
+<body>
+    <ctrl src="./controls/nav.html?888" id="mainNav" bind-to="menuData" doNotWrap="true"></ctrl>
+
+
+    <div class="main-container">
+        <nav class="nav nav-pills d-md-block d-none">
+            <a class="nav-item nav-link" href="#">Browse</a>
+            <a class="nav-item nav-link active" href="#">My Gigs</a>
+            <a class="nav-item nav-link" href="#">Post Gig</a>
+            <a class="nav-item nav-link" href="#">Arbitrate</a>
+        </div>
+
+      
+        <!--end of section-->
+        <section>
+            <div class="container">
+                <!--end of row-->
+                <div class="row">
+                    <div class="col">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item flex-column">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <img alt="Image" src="assets/img/logo-snapchat.svg" class="avatar circle avatar-sm" />
+                                    <h5 class="mb-1">Sign Up New Users</h5>
+                                    <span class="text-primary">Active</span>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">Using the referral link provided, get 10 new users within a week.</p>
+                                    <span class="text-success">&nbsp;&nbsp; $100.00</span>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!--end of col-->
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+        <!--end of section-->
+        <footer class="footer-short">
+            <div class="container">
+                <hr>
+                <nav class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">
+                                    <img alt="Image" src="assets/img/logo-gray.svg" />
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">Overview</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">Documentation</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">Changelog</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto text-sm-right">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">
+                                    <i class="socicon-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="app-collection-table.html#">
+                                    <i class="socicon-facebook"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end of col-->
+                </nav>
+                <!--end of row-->
+                <div class="row">
+                    <div class="col">
+                        <small>&copy; 2018 Medium Rare All Rights Reserved</small>
+                    </div>
+                    <!--end of col-->
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </footer>
+    </div>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.smartWizard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.10/flickity.pkgd.min.js"></script>
+    <script type="text/javascript" src="assets/js/scrollMonitor.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/12.1.5/js/smooth-scroll.polyfills.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/prism.min.js"></script>
+    <script type="text/javascript" src="assets/js/zoom.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/theme.js"></script>
+
+</body>

@@ -2,6 +2,9 @@ let loadedControls ={};
 let isDefined = function(v) {
     return (typeof v !== 'undefined')
 }
+/* Renders all regions in a document that are inside <script template-engine='ejs'>
+ * Has the advantage of only parsing the relevant parts of the DOM, 
+ * and rendering them in parallel! */
 let renderDefaultEjsTemplate =  function(bindingData) {
 
     //Render all EJS template regions in parallel. 
@@ -10,6 +13,12 @@ let renderDefaultEjsTemplate =  function(bindingData) {
         let rendered = ejs.render(markup, bindingData)
         $(this).replaceWith(rendered);    
     })
+}
+
+/* Treats the whole page as an ejs template and renders any tags */
+let renderPage = function(bindingData) {
+    let markup = $(body).html();
+    $(body).replaceWith(ejs.render(markup, bindingData))
 }
 //Treats the entire control as an ejs template
 let renderControl= function(markup, bindingData) {
@@ -146,19 +155,3 @@ let loadControls = function(bindingData, parentId) {
     })
   })
 }
-
-
-
-$(document).ready(() => {
-    //Declarative import of HTML web controls using <ctrl> tag
-    window.model =  
-    {
-        categories: ["All","Trending", "Social Media", "Design", "Programming", "Marketing", "Writing", "Creative"], 
-        menuData: {
-            topLevel:["Platform (Beta)", "Company", "Token", "Exchange"],
-            pageTitle: "Available Gigs"
-        }
-    }
-    renderDefaultEjsTemplate(model);
-    loadControls(model);
-})
